@@ -17,7 +17,7 @@ LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 find_package(PCL REQUIRED)
 find_package(Boost REQUIRED timer)
 find_package(GTSAM REQUIRED)
-find_package(MKL REQUIRED)
+#find_package(MKL REQUIRED)
 find_package(TBB REQUIRED)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -fsee -fomit-frame-pointer -fno-signed-zeros -fno-math-errno -funroll-loops")
@@ -131,7 +131,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${EIGEN_INCLUDE_DIR}
   ${PCL_INCLUDE_DIRS}
-  ${MKL_INCLUDE_DIRS}
+  # ${MKL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -150,8 +150,10 @@ include_directories(
 add_executable(vio
   src/main_estimator.cpp
   src/GraphSolver.cpp
-  src/GraphSolver_IMU.cpp
-  src/GraphSolver_FEAT.cpp
+  src/create_imu_factor.cpp
+  src/process_feat_smart.cpp
+  src/get_predicted_state.cpp
+  src/set_imu_preintegration.cpp
   )
 
 ## Rename C++ executable without prefix
@@ -167,7 +169,7 @@ add_executable(vio
 ## Specify libraries to link a library or executable target against
 target_link_libraries(vio
   ${catkin_LIBRARIES}
-  ${MKL_LIBRARIES}
+  #${MKL_LIBRARIES}
   tbb
   tbbmalloc
   gtsam
